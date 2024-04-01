@@ -35,9 +35,22 @@ export const Failure = ({ error }) => {
 
 export const Success = ({ attributes, body }) => {
   return (
-    <>
-      <Markdown>{body}</Markdown>
-      <div>{JSON.stringify(attributes)}</div>
-    </>
+    <div className="mt-8 border-2 border-dashed border-gray-400 p-4">
+      <h2 className="-ml-4 -mt-10 text-gray-400 font-semibold">
+        DocsRendererCell
+      </h2>
+
+      <div className="mt-8 border-2 border-dashed border-gray-300 p-4">
+        <h3 className="-ml-4 -mt-10 text-gray-300 font-semibold">Markdown</h3>
+        <Markdown className="markdown my-4">{body}</Markdown>
+      </div>
+
+      <p className="my-4 text-sm">
+        Markdown Front Matter:{' '}
+        <span className="font-mono text-sm text-gray-600">
+          {JSON.stringify(attributes)}
+        </span>
+      </p>
+    </div>
   )
 }

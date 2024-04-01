@@ -1,17 +1,40 @@
-/**
- * START --- SETUP TAILWINDCSS EDIT
- *
- * `yarn rw setup ui tailwindcss` placed these directives here
- * to inject Tailwind's styles into your CSS.
- * For more information, see: https://tailwindcss.com/docs/installation
- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/**
- * END --- SETUP TAILWINDCSS EDIT
- */
-html, body {
-  margin: 0;
-  padding: 0;
+
+.markdown {
+  h1 {
+    @apply text-4xl font-bold;
+  }
+  h2 {
+    @apply text-3xl font-bold;
+  }
+  h3 {
+    @apply text-2xl font-bold;
+  }
+  h4 {
+    @apply text-xl font-bold;
+  }
+  h5 {
+    @apply text-lg font-bold;
+  }
+  h6 {
+    @apply text-base font-bold;
+  }
+
+  p {
+    @apply my-4;
+  }
+
+  ul {
+    @apply my-4 list-disc list-inside;
+  }
+
+  ol {
+    @apply my-4 list-decimal list-inside;
+  }
+
+  li {
+    @apply ml-4;
+  }
 }

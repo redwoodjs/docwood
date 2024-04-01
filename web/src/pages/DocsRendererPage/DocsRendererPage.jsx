@@ -4,9 +4,10 @@ const DocsRendererPage = ({ path }) => {
   console.info('DocsRendererPage', path)
 
   return (
-    <div>
-      <h1>DocsRendererPage</h1>
-      <p>path: {path}</p>
+    <div className="mt-8 border-2 border-dashed border-gray-500 max-w-screen-lg mx-auto p-4">
+      <h1 className="-ml-4 -mt-10 text-gray-500 font-semibold">
+        DocsRendererPage
+      </h1>
       <DocsRendererCell docPath={path} />
     </div>
   )
