@@ -20,5 +20,10 @@
   "prisma": {
     "seed": "yarn rw exec seed"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "scripts": {
+    "bs": "yarn rw build && yarn sed && yarn copy && yarn rw serve",
+    "copy": "cp -R web/src/docs web/dist/rsc/docs",
+    "sed": "sed -i '' 's/docs\\/(.*)/docs\\/*/g' web/dist/server/route-manifest.json"
+  }
 }
