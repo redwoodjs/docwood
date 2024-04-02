@@ -32,6 +32,7 @@ docs
    │   ├── index.md
    │   └── serverless
    │       ├── cloudHosting
+   │       │   └── awsLambda.md
    │       ├── netlify.md
    │       └── render.md
    └── index.md
@@ -39,6 +40,6 @@ docs
 
 `index.md` will be served for the top level directory. For example, browsing to `https://redwoodjs.com/docs/deployment` will serve the file `docs/deployment/index.md`.
 
-If an `index.md` file does not exist, a barebones one will be built on the fly and served instead. Given the above directory structure, here's the page shown when browsing to `https://redwoodjs.com/docs/deployment/serverless`:
+If an `index.md` file does not exist when browsing to a directory, a barebones one will be built on the fly and served instead. Given the above directory structure, here's the page shown when browsing to `https://redwoodjs.com/docs/deployment/serverless`:
 
 ![image](https://github.com/cannikin/docwood/assets/300/c31ff886-884c-470c-ac40-5872e022c31e)
