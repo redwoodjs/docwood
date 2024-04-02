@@ -26,15 +26,26 @@
     @apply my-4;
   }
 
+  ul, ol {
+    @apply my-4 list-inside;
+    ul, ol {
+      @apply my-0;
+    }
+  }
+
   ul {
-    @apply my-4 list-disc list-inside;
+    @apply list-disc;
   }
 
   ol {
-    @apply my-4 list-decimal list-inside;
+    @apply list-decimal;
   }
 
   li {
     @apply ml-4;
+  }
+
+  a {
+    @apply text-blue-500 underline;
   }
 }
