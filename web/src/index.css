@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.markdown {
+.markdown, .custom-index {
   h1 {
     @apply text-4xl font-bold;
   }
@@ -21,30 +21,24 @@
   h6 {
     @apply text-base font-bold;
   }
-
   p {
     @apply my-4;
   }
-
   ul, ol {
     @apply my-4 list-inside;
     ul, ol {
       @apply my-0;
     }
   }
-
   ul {
     @apply list-disc;
   }
-
   ol {
     @apply list-decimal;
   }
-
   li {
     @apply ml-4;
   }
-
   a {
     @apply text-blue-500 underline;
   }
