@@ -14,9 +14,15 @@ const filesToLinks = (docPath, depth) => {
   const contents = fs.readdirSync(docPath)
 
   const links = contents.map((filename) => {
+    const docPathWithoutRoot = docPath.replace(DOCS_ROOT_PATH, '')
+
+    console.info(filename, docPath, docPathWithoutRoot)
+
     const descriptor = {
       title: toTitleCase(noCase(filename.replace('.md', ''))),
-      path: path.join(filename.replace('.md', '')),
+      path:
+        '/' +
+        path.join('docs', docPathWithoutRoot, filename.replace('.md', '')),
       type: filename.match(/\.md$/) ? 'file' : 'directory',
       children: [],
     }
@@ -39,9 +45,7 @@ const filesToLinks = (docPath, depth) => {
 }
 
 export const data = () => {
-  const links = filesToLinks(DOCS_ROOT_PATH, 1).filter((data) => data !== null)
-
-  return { links: links }
+  return { links: filesToLinks(DOCS_ROOT_PATH, 1) }
 }
 
 export const Loading = () => {
@@ -68,7 +72,7 @@ export const Success = ({ links }) => {
         <ul className="flex flex-col space-y-2">
           {links.map((link) => (
             <li key={link.path}>
-              <a href={`/docs/${link.path}`} className="text-sm font-semibold">
+              <a href={link.path} className="text-sm font-semibold">
                 {link.title}
               </a>
               {link.children.length > 0 && (
@@ -78,7 +82,7 @@ export const Success = ({ links }) => {
                 >
                   {link.children.map((child) => (
                     <li key={child.path}>
-                      <a href={`/docs/${child.path}`}>{child.title}</a>
+                      <a href={child.path}>{child.title}</a>
                     </li>
                   ))}
                 </ul>
