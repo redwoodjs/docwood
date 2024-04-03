@@ -1,3 +1,4 @@
+import DocsNavigationCell from './DocsNavigationCell'
 import DocsRendererCell from './DocsRendererCell/DocsRendererCell'
 
 const DocsRendererPage = ({ path }) => {
@@ -6,7 +7,15 @@ const DocsRendererPage = ({ path }) => {
       <h1 className="-ml-4 -mt-10 text-gray-500 font-semibold">
         DocsRendererPage
       </h1>
-      <DocsRendererCell docPath={path} />
+
+      <div className="flex items-start space-x-4">
+        <aside className="w-1/4 flex-shrink-0">
+          <DocsNavigationCell />
+        </aside>
+        <main>
+          <DocsRendererCell docPath={path} />
+        </main>
+      </div>
     </div>
   )
 }

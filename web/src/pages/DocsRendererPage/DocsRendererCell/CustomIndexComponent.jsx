@@ -6,11 +6,11 @@ import { noCase } from 'change-case'
 import fm from 'front-matter'
 import toTitleCase from 'titlecase'
 
-const ROOT_PATH = path.join('dist', 'rsc', 'docs')
+import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
 const CustomIndexComponent = (docPath) => {
   // get all files/directories in this path
-  const contents = fs.readdirSync(path.join(ROOT_PATH, docPath))
+  const contents = fs.readdirSync(path.join(DOCS_ROOT_PATH, docPath))
   const links = contents
     .map((filename) => {
       const descriptor = {
@@ -20,9 +20,9 @@ const CustomIndexComponent = (docPath) => {
         type: filename.match(/\.md$/) ? 'file' : 'directory',
       }
 
-      if (fs.lstatSync(path.join(ROOT_PATH, docPath, filename)).isFile()) {
+      if (fs.lstatSync(path.join(DOCS_ROOT_PATH, docPath, filename)).isFile()) {
         const file = fs.readFileSync(
-          path.join(ROOT_PATH, docPath, filename),
+          path.join(DOCS_ROOT_PATH, docPath, filename),
           'utf8'
         )
         // get frontmatter

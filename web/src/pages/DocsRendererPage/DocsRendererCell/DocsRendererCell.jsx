@@ -6,29 +6,23 @@ import Markdown from 'react-markdown'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
-import CustomIndexComponent from './CustomIndexComponent'
+import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
-const ROOT_PATH = path.join('dist', 'rsc', 'docs')
+import CustomIndexComponent from './CustomIndexComponent'
 
 export const data = ({ docPath }) => {
   // if docPath is undefined, assume `index`
-  let filePath = path.join(ROOT_PATH, `${docPath || 'index'}.md`)
-
-  const fileExists = fs.existsSync(filePath)
+  let filePath = path.join(DOCS_ROOT_PATH, `${docPath || 'index'}.md`)
 
   // path doesn't exist, check if maybe `index` does instead
-  if (!fileExists) {
-    filePath = path.join(ROOT_PATH, docPath, 'index.md')
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(DOCS_ROOT_PATH, docPath, 'index.md')
   }
 
   let markdown, IndexComponent
 
-  // if an index.md page doesn't exist, create an index page on the fly with
+  // if an index.md page still doesn't exist, create an index page on the fly with
   // links to the sub pages
-  //
-  // `type` keeps track of whether this is a custom-build index page or just
-  // read off the filesystem as normal so that we can add classes and apply
-  // custom styles
   if (!fs.existsSync(filePath)) {
     IndexComponent = CustomIndexComponent(docPath)
   } else {
