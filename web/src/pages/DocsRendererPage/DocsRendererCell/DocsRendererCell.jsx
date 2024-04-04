@@ -8,6 +8,7 @@ import Markdown from 'react-markdown'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
+import Wrap from 'src/components/Wrap'
 import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
 import CustomIndexComponent from './CustomIndexComponent'
@@ -68,62 +69,42 @@ export const Failure = ({ error }) => {
 }
 
 export const Success = ({ attributes, body, MdxComponent, IndexComponent }) => {
-  console.info('attributes', attributes)
-  console.info('MdxComponent', MdxComponent)
-  console.info('IndexComponent', IndexComponent)
-
   return (
-    <div className="mt-8 border-2 border-dashed border-gray-400 p-4">
-      <h2 className="-ml-4 -mt-10 font-semibold text-gray-400">
-        DocsRendererCell
-      </h2>
-
+    <Wrap title="DocsRendererCell" level={3}>
       {IndexComponent && (
-        <div className="mt-8 border-2 border-dashed border-gray-300 p-4">
-          <h3 className="-ml-4 -mt-10 font-semibold text-gray-300">
-            CustomIndexComponent
-          </h3>
-
+        <Wrap title="CustomIndexComponent" level={4}>
           <div className="custom-index my-4">
             <IndexComponent />
           </div>
-        </div>
+        </Wrap>
       )}
 
       {MdxComponent && (
-        <div className="mt-8 border-2 border-dashed border-gray-300 p-4">
-          <h3 className="-ml-4 -mt-10 font-semibold text-gray-300">
-            MdxComponent
-          </h3>
-
+        <Wrap title="MdxComponent" level={4}>
           <div className="custom-index my-4">
             <MdxComponent />
           </div>
-        </div>
+        </Wrap>
       )}
 
       {body && (
         <>
-          <div className="mt-8 border-2 border-dashed border-gray-300 p-4">
-            <h3 className="-ml-4 -mt-10 font-semibold text-gray-300">
-              Markdown
-            </h3>
+          <Wrap title="Markdown" level={4}>
             <Markdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
               className="markdown my-4"
             >
               {body}
             </Markdown>
-          </div>
-
-          <p className="my-4 text-sm">
-            Markdown Front Matter:{' '}
-            <span className="font-mono text-sm text-gray-600">
-              {JSON.stringify(attributes)}
-            </span>
-          </p>
+            <p className="my-6 border-t border-gray-300 pt-4 text-sm text-gray-400">
+              Markdown Front Matter:{' '}
+              <div className="rounded bg-gray-200 px-2 py-1 font-mono text-xs text-gray-600">
+                {JSON.stringify(attributes)}
+              </div>
+            </p>
+          </Wrap>
         </>
       )}
-    </div>
+    </Wrap>
   )
 }

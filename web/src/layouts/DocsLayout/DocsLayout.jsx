@@ -1,10 +1,11 @@
+import Wrap from 'src/components/Wrap'
+
 const DocsLayout = ({ children }) => {
   return (
-    <div className="mt-8 border-2 border-dashed border-gray-600 m-4 p-4">
-      <h1 className="-ml-4 -mt-10 text-gray-600 font-semibold">DocsLayout</h1>
-      <div className="max-w-screen-lg mx-auto">
+    <div className="mx-auto max-w-screen-lg">
+      <Wrap title="DocsLayout" level={1}>
         <div className="">{children}</div>
-      </div>
+      </Wrap>
     </div>
   )
 }

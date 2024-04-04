@@ -5,6 +5,7 @@ import { noCase } from 'change-case'
 import fm from 'front-matter'
 import toTitleCase from 'titlecase'
 
+import Wrap from 'src/components/Wrap/Wrap'
 import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
 const filesToLinks = (docPath, depth) => {
@@ -70,13 +71,14 @@ export const Failure = ({ error }) => {
 
 export const Success = ({ links }) => {
   return (
-    <div className="mt-8 border-2 border-dashed border-gray-400 p-4">
-      <h1 className="-ml-4 -mt-10 font-semibold text-gray-400">
-        DocsNavigationCell
-      </h1>
-
+    <Wrap title="DocsNavigationCell" level={3}>
       <nav>
         <ul className="flex flex-col space-y-2">
+          <li>
+            <a href="/docs" className="text-sm font-semibold">
+              Home
+            </a>
+          </li>
           {links.map((link) => (
             <li key={link.path}>
               <a href={link.path} className="text-sm font-semibold">
@@ -98,6 +100,6 @@ export const Success = ({ links }) => {
           ))}
         </ul>
       </nav>
-    </div>
+    </Wrap>
   )
 }
