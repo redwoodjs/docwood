@@ -8,6 +8,19 @@ import toTitleCase from 'titlecase'
 import Wrap from 'src/components/Wrap/Wrap'
 import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
+const filenameToTitle = (filename) => {
+  // remove extension
+  let output = filename.replace(/\.mdx?/, '')
+  // remove leading numbers for sorting
+  output = output.replace(/^\d+_/, '')
+  // turns "camelCase" into "camel case"
+  output = noCase(output)
+  // turns "lowercase words" into "Title Case Words"
+  output = toTitleCase(output)
+
+  return output
+}
+
 const filesToLinks = (docPath, depth) => {
   // only go 2 levels deep for now
   if (depth > 2) return null
@@ -25,7 +38,7 @@ const filesToLinks = (docPath, depth) => {
 
     // creates a barebones descriptor for the markdown file
     const descriptor = {
-      title: toTitleCase(noCase(filename.replace(/\.mdx?/, ''))),
+      title: filenameToTitle(filename),
       path:
         '/' +
         path.join('docs', docPathWithoutRoot, filename.replace(/\.mdx?/, '')),

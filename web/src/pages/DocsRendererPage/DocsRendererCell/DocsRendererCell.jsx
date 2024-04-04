@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import { evaluate } from '@mdx-js/mdx'
+import fg from 'fast-glob'
 import fm from 'front-matter'
 import * as jsxRuntime from 'react/jsx-runtime'
 import Markdown from 'react-markdown'
@@ -15,39 +16,43 @@ import CustomIndexComponent from './CustomIndexComponent'
 
 export const data = async ({ docPath }) => {
   // if docPath is undefined, assume the root `index` of the whole /docs dir
-  let filePath = path.join(DOCS_ROOT_PATH, `${docPath || 'index'}.md`)
+  // first try looking for an md file with the exact name of the URL path
+  let filePath = path.join(DOCS_ROOT_PATH, `${docPath || 'index'}.md*`)
 
-  // TODO .mdx lookup hack, replace with fast-glob?
-  if (!fs.existsSync(filePath)) {
-    filePath = filePath = path.join(DOCS_ROOT_PATH, `${docPath || 'index'}.mdx`)
+  // if not found, look for an index.md file in the directory of docPath
+  if (!fg.sync(filePath).length) {
+    filePath = path.join(DOCS_ROOT_PATH, docPath, `index.md*`)
   }
 
-  // path doesn't exist, check if maybe an index exists within that directory
-  if (!fs.existsSync(filePath)) {
-    filePath = path.join(DOCS_ROOT_PATH, docPath, 'index.md')
-  }
+  // look for the file that matches the glob
+  const matchingFilePath = fg.sync(filePath)[0]
 
-  // TODO Hack to check for .mdx if .md doesn't exist, maybe replace with fast-glob somehow?
-  if (!fs.existsSync(filePath)) {
-    filePath = path.join(DOCS_ROOT_PATH, docPath, 'index.mdx')
-  }
+  console.info('\n\n***************************\n\n')
+  console.info('docPath: ', docPath)
+  console.info('filePath: ', filePath)
+  console.info('matchingFilePath: ', matchingFilePath)
+  console.info('\n\n***************************\n\n')
 
   let md, MdxComponent, IndexComponent
 
-  // if an index.md page still doesn't exist, create an index page on the fly with
-  // links to the sub pages
-  if (!fs.existsSync(filePath)) {
+  if (!matchingFilePath) {
+    console.info('Custom index')
+    // no file and no index, so create one
     IndexComponent = CustomIndexComponent(docPath)
-  } else if (filePath.match(/\.mdx$/)) {
+  } else if (matchingFilePath.match(/\.mdx$/)) {
+    console.info('MDX file')
+    // mdx file
     MdxComponent = (
-      await evaluate(fs.readFileSync(filePath, 'utf8'), {
+      await evaluate(fs.readFileSync(matchingFilePath, 'utf8'), {
         ...jsxRuntime,
         baseUrl: import.meta.url,
         remarkPlugins: [remarkGfm, remarkBreaks],
       })
     ).default
   } else {
-    md = fs.readFileSync(filePath, 'utf8')
+    console.info('Plain md file')
+    // plain md file
+    md = fs.readFileSync(matchingFilePath, 'utf8')
   }
 
   console.info(MdxComponent)
