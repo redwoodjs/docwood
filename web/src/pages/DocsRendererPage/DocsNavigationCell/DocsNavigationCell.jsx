@@ -16,14 +16,17 @@ const filesToLinks = (docPath, depth) => {
   const links = contents.map((filename) => {
     const docPathWithoutRoot = docPath.replace(DOCS_ROOT_PATH, '')
 
-    console.info(filename, docPath, docPathWithoutRoot)
+    // don't create nav links for index pages, the parent directory will handle
+    if (filename.match(/index\.mdx?/)) {
+      return null
+    }
 
     const descriptor = {
-      title: toTitleCase(noCase(filename.replace('.md', ''))),
+      title: toTitleCase(noCase(filename.replace(/\.mdx?/, ''))),
       path:
         '/' +
-        path.join('docs', docPathWithoutRoot, filename.replace('.md', '')),
-      type: filename.match(/\.md$/) ? 'file' : 'directory',
+        path.join('docs', docPathWithoutRoot, filename.replace(/\.mdx?/, '')),
+      type: filename.match(/\.mdx?$/) ? 'file' : 'directory',
       children: [],
     }
 
@@ -41,7 +44,7 @@ const filesToLinks = (docPath, depth) => {
     return descriptor
   })
 
-  return links
+  return links.filter((link) => link)
 }
 
 export const data = () => {
@@ -64,7 +67,7 @@ export const Failure = ({ error }) => {
 export const Success = ({ links }) => {
   return (
     <div className="mt-8 border-2 border-dashed border-gray-500 p-4">
-      <h1 className="-ml-4 -mt-10 text-gray-600 font-semibold">
+      <h1 className="-ml-4 -mt-10 font-semibold text-gray-600">
         DocsNavigationCell
       </h1>
 
@@ -78,7 +81,7 @@ export const Success = ({ links }) => {
               {link.children.length > 0 && (
                 <ul
                   key={`${link.path}-sub`}
-                  className="flex flex-col space-y-1 text-sm pl-2 border-l border-gray-300"
+                  className="flex flex-col space-y-1 border-l border-gray-300 pl-2 text-sm"
                 >
                   {link.children.map((child) => (
                     <li key={child.path}>
