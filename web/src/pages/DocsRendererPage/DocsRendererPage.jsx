@@ -9,7 +9,7 @@ const DocsRendererPage = ({ path }) => {
       </h1>
 
       <div className="flex items-start space-x-4">
-        <aside className="w-1/4 w-full flex-shrink-0">
+        <aside className="w-1/4 flex-shrink-0">
           <DocsNavigationCell />
         </aside>
         <main className="flex-grow">
