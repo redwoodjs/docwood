@@ -22,6 +22,7 @@ const filesToLinks = (docPath, depth) => {
       return null
     }
 
+    // creates a barebones descriptor for the markdown file
     const descriptor = {
       title: toTitleCase(noCase(filename.replace(/\.mdx?/, ''))),
       path:
@@ -32,11 +33,13 @@ const filesToLinks = (docPath, depth) => {
     }
 
     if (fs.lstatSync(path.join(docPath, filename)).isDirectory()) {
+      // if it's a directory, recurse
       descriptor.children = filesToLinks(
         path.join(docPath, filename),
         depth + 1
       )
     } else {
+      // if it's a file, get the title from the frontmatter if possible
       const file = fs.readFileSync(path.join(docPath, filename), 'utf8')
       const { attributes } = fm(file)
       descriptor.title = attributes.title || descriptor.title
@@ -67,8 +70,8 @@ export const Failure = ({ error }) => {
 
 export const Success = ({ links }) => {
   return (
-    <div className="mt-8 border-2 border-dashed border-gray-500 p-4">
-      <h1 className="-ml-4 -mt-10 font-semibold text-gray-600">
+    <div className="mt-8 border-2 border-dashed border-gray-400 p-4">
+      <h1 className="-ml-4 -mt-10 font-semibold text-gray-400">
         DocsNavigationCell
       </h1>
 
