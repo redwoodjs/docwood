@@ -2,7 +2,7 @@ export const Button = () => {
   return (
     <button
       type="button"
-      className="rounded bg-blue-500 px-3 py-1 font-semibold text-white"
+      className="text-sm rounded bg-blue-500 px-3 py-1 font-semibold text-white"
     >
       Click me!
     </button>
@@ -13,6 +13,10 @@ export const Button = () => {
 
 This is a regular paragraph.
 
-This should be an inline expression showing the value of `Math.PI`: {Math.PI}
+The MDX render should be using remark-breaks
+so this should be broken onto two lines.
+And a third line!
 
-And we should be able to use components like this: <Button />
+Inline expression `{Math.PI}` showing the value of π: {Math.PI}
+
+Render a component: <Button />

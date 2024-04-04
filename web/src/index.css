@@ -42,4 +42,7 @@
   a {
     @apply text-blue-500 underline;
   }
+  code {
+    @apply bg-gray-200 p-1 rounded text-sm;
+  }
 }
