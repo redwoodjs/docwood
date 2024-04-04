@@ -17,7 +17,8 @@ const filesToLinks = (docPath, depth) => {
     const docPathWithoutRoot = docPath.replace(DOCS_ROOT_PATH, '')
 
     // don't create nav links for index pages, the parent directory will handle
-    if (filename.match(/index\.mdx?/)) {
+    // also don't create them for jsx/tsx files
+    if (filename.match(/index\.mdx?/) || filename.match(/\.[jt]sx$/)) {
       return null
     }
 
