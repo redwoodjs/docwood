@@ -11681,7 +11681,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:3.3.2, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.0":
+"fast-glob@npm:3.3.2, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.0, fast-glob@npm:^3.3.2":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -22817,6 +22817,7 @@ __metadata:
     autoprefixer: "npm:^10.4.19"
     change-case: "npm:^5.4.3"
     clsx: "npm:^2.1.0"
+    fast-glob: "npm:^3.3.2"
     front-matter: "npm:^4.0.2"
     postcss: "npm:^8.4.38"
     postcss-loader: "npm:^8.1.1"
