@@ -7,8 +7,8 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/core": "8.0.0-canary.417",
-    "@redwoodjs/project-config": "8.0.0-canary.417",
+    "@redwoodjs/core": "8.0.0-canary.437",
+    "@redwoodjs/project-config": "8.0.0-canary.437",
     "prettier-plugin-tailwindcss": "^0.5.12"
   },
   "eslintConfig": {
@@ -23,8 +23,7 @@
   },
   "packageManager": "yarn@4.1.1",
   "scripts": {
-    "bs": "yarn rw build && yarn sed && yarn copy && yarn rw serve",
-    "copy": "cp -R web/src/docs web/dist/rsc/docs",
-    "sed": "sed -i '' 's/docs\\/(.*)/docs\\/*/g' web/dist/server/route-manifest.json"
+    "bs": "yarn rw build && yarn copy && yarn rw serve",
+    "copy": "cp -R web/src/docs web/dist/rsc/docs"
   }
 }

@@ -14,9 +14,9 @@
     "@apollo/experimental-nextjs-app-support": "0.0.0-commit-b8a73fe",
     "@heroicons/react": "^2.1.3",
     "@mdx-js/mdx": "^3.0.1",
-    "@redwoodjs/forms": "8.0.0-canary.417",
-    "@redwoodjs/router": "8.0.0-canary.417",
-    "@redwoodjs/web": "8.0.0-canary.417",
+    "@redwoodjs/forms": "8.0.0-canary.437",
+    "@redwoodjs/router": "8.0.0-canary.437",
+    "@redwoodjs/web": "8.0.0-canary.437",
     "change-case": "^5.4.3",
     "clsx": "^2.1.0",
     "fast-glob": "^3.3.2",
@@ -30,7 +30,7 @@
     "titlecase": "^1.1.3"
   },
   "devDependencies": {
-    "@redwoodjs/vite": "8.0.0-canary.417",
+    "@redwoodjs/vite": "8.0.0-canary.437",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.19",
