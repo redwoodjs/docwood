@@ -15,7 +15,7 @@ import { DOCS_ROOT_PATH } from 'src/lib/paths'
 import CustomIndexComponent from './CustomIndexComponent'
 
 export const data = async ({ docPath }) => {
-  let md, MdxComponent, IndexComponent
+  let parsedMarkdown, MdxComponent, IndexComponent
 
   // first try looking for an md file with the exact name of the URL path
   // if docPath is undefined, assume the root `index` of the whole /docs dir
@@ -29,7 +29,6 @@ export const data = async ({ docPath }) => {
 
   // see if fast-glob finds any files that match the path
   const matchingFilePath = fg.sync(filePath)[0]
-  let parsedMarkdown
 
   if (!matchingFilePath) {
     // no file and no index, so create one
@@ -47,7 +46,7 @@ export const data = async ({ docPath }) => {
     ).default
   } else {
     // plain md file
-    parsedMarkdown = fs.readFileSync(matchingFilePath, 'utf8')
+    parsedMarkdown = fm(fs.readFileSync(matchingFilePath, 'utf8'))
   }
 
   return { ...parsedMarkdown, MdxComponent, IndexComponent }
