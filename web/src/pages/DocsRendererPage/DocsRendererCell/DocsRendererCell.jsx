@@ -13,9 +13,10 @@ import Wrap from 'src/components/Wrap'
 import { DOCS_ROOT_PATH } from 'src/lib/paths'
 
 import CustomIndexComponent from './CustomIndexComponent'
+import MdxRenderer from './MdxRenderer'
 
 export const data = async ({ docPath }) => {
-  let parsedMarkdown, MdxComponent, IndexComponent
+  let parsedMarkdown, mdx, IndexComponent
 
   // first try looking for an md file with the exact name of the URL path
   // if docPath is undefined, assume the root `index` of the whole /docs dir
@@ -36,20 +37,13 @@ export const data = async ({ docPath }) => {
   } else if (matchingFilePath.match(/\.mdx$/)) {
     // mdx file
     parsedMarkdown = fm(fs.readFileSync(matchingFilePath, 'utf8'))
-
-    MdxComponent = (
-      await evaluate(parsedMarkdown.body, {
-        ...jsxRuntime,
-        baseUrl: import.meta.url,
-        remarkPlugins: [remarkGfm, remarkBreaks],
-      })
-    ).default
+    mdx = parsedMarkdown.body
   } else {
     // plain md file
     parsedMarkdown = fm(fs.readFileSync(matchingFilePath, 'utf8'))
   }
 
-  return { ...parsedMarkdown, MdxComponent, IndexComponent }
+  return { ...parsedMarkdown, mdx, IndexComponent }
 }
 
 export const Loading = () => {
@@ -65,7 +59,7 @@ export const Failure = ({ error }) => {
   )
 }
 
-export const Success = ({ attributes, body, MdxComponent, IndexComponent }) => {
+export const Success = ({ attributes, body, mdx, IndexComponent }) => {
   return (
     <Wrap title="DocsRendererCell" level={3}>
       {IndexComponent && (
@@ -76,10 +70,10 @@ export const Success = ({ attributes, body, MdxComponent, IndexComponent }) => {
         </Wrap>
       )}
 
-      {MdxComponent ? (
+      {mdx ? (
         <Wrap title="MdxComponent" level={4}>
           <div className="custom-index my-4">
-            <MdxComponent />
+            <MdxRenderer mdx={mdx} />
           </div>
         </Wrap>
       ) : (
