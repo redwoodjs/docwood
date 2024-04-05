@@ -29,14 +29,17 @@ export const data = async ({ docPath }) => {
 
   // see if fast-glob finds any files that match the path
   const matchingFilePath = fg.sync(filePath)[0]
+  let parsedMarkdown
 
   if (!matchingFilePath) {
     // no file and no index, so create one
     IndexComponent = CustomIndexComponent(docPath)
   } else if (matchingFilePath.match(/\.mdx$/)) {
     // mdx file
+    parsedMarkdown = fm(fs.readFileSync(matchingFilePath, 'utf8'))
+
     MdxComponent = (
-      await evaluate(fs.readFileSync(matchingFilePath, 'utf8'), {
+      await evaluate(parsedMarkdown.body, {
         ...jsxRuntime,
         baseUrl: import.meta.url,
         remarkPlugins: [remarkGfm, remarkBreaks],
@@ -44,10 +47,10 @@ export const data = async ({ docPath }) => {
     ).default
   } else {
     // plain md file
-    md = fs.readFileSync(matchingFilePath, 'utf8')
+    parsedMarkdown = fs.readFileSync(matchingFilePath, 'utf8')
   }
 
-  return { ...fm(md), MdxComponent, IndexComponent }
+  return { ...parsedMarkdown, MdxComponent, IndexComponent }
 }
 
 export const Loading = () => {
@@ -74,15 +77,13 @@ export const Success = ({ attributes, body, MdxComponent, IndexComponent }) => {
         </Wrap>
       )}
 
-      {MdxComponent && (
+      {MdxComponent ? (
         <Wrap title="MdxComponent" level={4}>
           <div className="custom-index my-4">
             <MdxComponent />
           </div>
         </Wrap>
-      )}
-
-      {body && (
+      ) : (
         <>
           <Wrap title="Markdown" level={4}>
             <Markdown
