@@ -1,3 +1,7 @@
+// import fs from 'node:fs/promises'
+
+// import fm from 'front-matter'
+
 import Wrap from 'src/components/Wrap/Wrap'
 import { getDocumentMap } from 'src/lib/docs'
 import { DocumentTreeNode } from 'src/lib/types'
@@ -5,38 +9,6 @@ import { DocumentTreeNode } from 'src/lib/types'
 // import ClientMdxRenderer from './subs/ClientMdxRenderer'
 import StaticMarkdownRenderer from './subs/StaticMarkdownRenderer'
 import VirtualIndexRenderer from './subs/VirtualIndexRenderer'
-
-const selectRenderer = async (
-  node: DocumentTreeNode
-): Promise<JSX.Element | undefined> => {
-  if (node.type === 'directory') {
-    // Try to find the index entry
-    const index = node.children.find((child) => child.link === node.link)
-    if (index) {
-      return selectRenderer(index)
-    }
-
-    // We will generate an index based on the directory
-    return <VirtualIndexRenderer node={node} />
-  }
-
-  if (node.type === 'md') {
-    return <StaticMarkdownRenderer node={node} />
-  }
-
-  if (node.type === 'mdx') {
-    // TODO(jgmw): I don't see why this shouldn't work but maybe the whole dev server in production
-    //  thing might be messing with it?
-
-    // For now load the content and then pass it to a MDX renderer on the client
-    // const content = await fs.readFile(node.path, 'utf-8')
-    // const { body: mdx } = fm(content)
-    // return <ClientMdxRenderer mdx={mdx} />
-    return <StaticMarkdownRenderer node={node} />
-  }
-
-  return undefined
-}
 
 export const data = async ({ docPath }) => {
   const documentMap = await getDocumentMap()
@@ -48,12 +20,37 @@ export const data = async ({ docPath }) => {
     throw new Error('Document not found')
   }
 
-  const renderer = await selectRenderer(node)
-  if (!renderer) {
-    throw new Error('No renderer found')
+  const getRenderer = async (node: DocumentTreeNode) => {
+    if (node.type === 'directory') {
+      // Try to find the index entry
+      const index = node.children.find((child) => child.link === node.link)
+      if (index) {
+        return await getRenderer(index)
+      }
+
+      // We will generate an index based on the directory
+      return { Component: <VirtualIndexRenderer node={node} /> }
+    }
+
+    if (node.type === 'md') {
+      return { Component: <StaticMarkdownRenderer node={node} /> }
+    }
+
+    if (node.type === 'mdx') {
+      // TODO(jgmw): I don't see why this shouldn't work but maybe the whole dev server in production
+      //  thing might be messing with it?
+      const { default: Renderer } = await import(node.path)
+      return { Component: <Renderer /> }
+    }
+
+    return (
+      <>
+        <div>Unknown document type: {node.type}</div>
+      </>
+    )
   }
 
-  return renderer
+  return await getRenderer(node)
 }
 
 export const Loading = () => {
@@ -73,7 +70,7 @@ export const Failure = ({ error }) => {
   )
 }
 
-export const Success = (Component: Awaited<ReturnType<typeof data>>) => {
+export const Success = ({ Component }: Awaited<ReturnType<typeof data>>) => {
   return (
     <Wrap title="DocsRendererCell" level={3}>
       {Component}
