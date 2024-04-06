@@ -1,3 +1,1 @@
-import path from 'node:path'
-
-export const DOCS_ROOT_PATH = 'dist/rsc/docs'
+export const DOCS_ROOT_PATH = 'dist/rsc/assets/docs'
