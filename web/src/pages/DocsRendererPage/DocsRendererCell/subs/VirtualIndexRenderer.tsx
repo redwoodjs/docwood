@@ -22,26 +22,28 @@ const VirtualIndexRenderer = async ({ node }: { node: DocumentTreeBranch }) => {
 
   return (
     <Wrap title="VirtualIndexRenderer" level={4}>
-      <h1>{node.title}</h1>
-      <dl className="my-4">
-        {children.map((child) => (
-          <>
-            <dt key={child.link} className="flex items-center space-x-2">
-              {child.type === 'directory' ? (
-                <FolderIcon className="h-5 w-5 text-gray-600" />
-              ) : (
-                <DocumentIcon className="h-5 w-5 text-gray-600" />
-              )}
-              <a href={child.link} className="font-semibold">
-                {titles.get(child.link)}
-              </a>
-            </dt>
-            <dd className="mb-4 ml-7">
-              {descriptions.get(child.link) ?? 'No description'}
-            </dd>
-          </>
-        ))}
-      </dl>
+      <div className="markdown">
+        <h1>{node.title}</h1>
+        <dl className="my-4">
+          {children.map((child) => (
+            <>
+              <dt key={child.link} className="flex items-center space-x-2">
+                {child.type === 'directory' ? (
+                  <FolderIcon className="h-5 w-5 text-gray-600" />
+                ) : (
+                  <DocumentIcon className="h-5 w-5 text-gray-600" />
+                )}
+                <a href={child.link} className="font-semibold">
+                  {titles.get(child.link)}
+                </a>
+              </dt>
+              <dd className="mb-4 ml-7">
+                {descriptions.get(child.link) ?? 'No description'}
+              </dd>
+            </>
+          ))}
+        </dl>
+      </div>
     </Wrap>
   )
 }

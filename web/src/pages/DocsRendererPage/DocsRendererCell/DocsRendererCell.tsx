@@ -1,7 +1,3 @@
-// import fs from 'node:fs/promises'
-
-// import fm from 'front-matter'
-
 import Wrap from 'src/components/Wrap/Wrap'
 import { getDocumentMap } from 'src/lib/docs'
 import { DocumentTreeNode } from 'src/lib/types'
@@ -37,10 +33,16 @@ export const data = async ({ docPath }) => {
     }
 
     if (node.type === 'mdx') {
-      // TODO(jgmw): I don't see why this shouldn't work but maybe the whole dev server in production
-      //  thing might be messing with it?
-      const { default: Renderer } = await import(node.path)
-      return { Component: <Renderer /> }
+      // This feels like an appropriate way to do this but it did involve adding some custom
+      // middleware to support what redwoods rsc is doing with a dev server in production
+      const { default: Renderer } = await import(/* @vite-ignore */ node.path)
+      return {
+        Component: (
+          <div className="markdown">
+            <Renderer />
+          </div>
+        ),
+      }
     }
 
     return (

@@ -129,7 +129,13 @@ function mergeInput(
 
 async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
   const { default: mdx } = await import('@mdx-js/rollup')
-  const original = mdx()
+  const { default: remarkBreaks } = await import('remark-breaks')
+  const { default: remarkGfm } = await import('remark-gfm')
+  const { default: remarkFrontmatter } = await import('remark-frontmatter')
+
+  const original = mdx({
+    remarkPlugins: [remarkGfm, remarkBreaks, remarkFrontmatter],
+  })
   return {
     ...original,
     name: 'mdxWrapper',
