@@ -5,7 +5,7 @@ import * as jsxRuntime from 'react/jsx-runtime'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
-const MdxRenderer = async ({ mdx }) => {
+const ClientMdxRenderer = async ({ mdx }: { mdx: string }) => {
   const MdxComponent = (
     await evaluate(mdx, {
       ...jsxRuntime,
@@ -17,4 +17,4 @@ const MdxRenderer = async ({ mdx }) => {
   return <MdxComponent />
 }
 
-export default MdxRenderer
+export default ClientMdxRenderer

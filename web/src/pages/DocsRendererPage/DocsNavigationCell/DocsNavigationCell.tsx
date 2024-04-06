@@ -1,9 +1,9 @@
 import Wrap from 'src/components/Wrap/Wrap'
-import { getChildrenUpToDepth, getDocumentTree } from 'src/lib/docs'
+import { getDocumentTreeToDepth } from 'src/lib/docs'
 
 export const data = async ({ depth }: { depth: number }) => {
-  const tree = await getDocumentTree()
-  return { links: getChildrenUpToDepth(tree, depth) }
+  const subTree = await getDocumentTreeToDepth(depth)
+  return { links: subTree }
 }
 
 export const Loading = () => {
@@ -20,7 +20,8 @@ export const Failure = ({ error }) => {
 }
 
 export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
-  const linksWithoutIndex = links.filter((link) => !link.index)
+  const linksWithoutIndex = links.filter((link) => link.link !== '/docs')
+
   return (
     <Wrap title="DocsNavigationCell" level={3}>
       <nav>
@@ -31,9 +32,11 @@ export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
             </a>
           </li>
           {linksWithoutIndex.map((link) => {
-            const childrenWithoutIndex = link.children.filter(
-              (child) => !child.index
-            )
+            const childrenWithoutIndex =
+              link.type === 'directory'
+                ? link.children.filter((child) => child.link !== link.link)
+                : []
+
             return (
               <li key={link.link}>
                 <a href={link.link} className="text-sm font-semibold">

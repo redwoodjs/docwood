@@ -1,7 +1,7 @@
-import TreeDebugCell from './TreeDebugCell'
+import DebugCell from './DebugCell'
 
 const DebugPage = () => {
-  return <TreeDebugCell />
+  return <DebugCell />
 }
 
 export default DebugPage

@@ -1,90 +1,82 @@
-import fs from 'node:fs/promises'
-import { fileURLToPath } from 'node:url'
-
-import fm from 'front-matter'
-import Markdown from 'react-markdown'
-import remarkBreaks from 'remark-breaks'
-import remarkGfm from 'remark-gfm'
-
 import Wrap from 'src/components/Wrap/Wrap'
-import { getNodeByLink } from 'src/lib/docs'
+import { getDocumentMap } from 'src/lib/docs'
+import { DocumentTreeNode } from 'src/lib/types'
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+// import ClientMdxRenderer from './subs/ClientMdxRenderer'
+import StaticMarkdownRenderer from './subs/StaticMarkdownRenderer'
+import VirtualIndexRenderer from './subs/VirtualIndexRenderer'
+
+const selectRenderer = async (
+  node: DocumentTreeNode
+): Promise<JSX.Element | undefined> => {
+  if (node.type === 'directory') {
+    // Try to find the index entry
+    const index = node.children.find((child) => child.link === node.link)
+    if (index) {
+      return selectRenderer(index)
+    }
+
+    // We will generate an index based on the directory
+    return <VirtualIndexRenderer node={node} />
+  }
+
+  if (node.type === 'md') {
+    return <StaticMarkdownRenderer node={node} />
+  }
+
+  if (node.type === 'mdx') {
+    // TODO(jgmw): I don't see why this shouldn't work but maybe the whole dev server in production
+    //  thing might be messing with it?
+
+    // For now load the content and then pass it to a MDX renderer on the client
+    // const content = await fs.readFile(node.path, 'utf-8')
+    // const { body: mdx } = fm(content)
+    // return <ClientMdxRenderer mdx={mdx} />
+    return <StaticMarkdownRenderer node={node} />
+  }
+
+  return undefined
+}
 
 export const data = async ({ docPath }) => {
-  let documentNode = await getNodeByLink(
-    docPath ? `/docs/${docPath}` : '/docs/'
-  )
+  const documentMap = await getDocumentMap()
+  const mapKey = docPath ? `/docs/${docPath}` : '/docs'
+  const node = documentMap.get(mapKey)
 
-  if (!documentNode) {
+  if (!node) {
+    console.log('Document not found', mapKey)
     throw new Error('Document not found')
   }
 
-  let type = documentNode.type
-  if (type === 'directory') {
-    documentNode = documentNode.children.find((child) => child.index)
-    if (!documentNode) {
-      throw new Error('Index not found for directory')
-    }
-    type = documentNode.type
+  const renderer = await selectRenderer(node)
+  if (!renderer) {
+    throw new Error('No renderer found')
   }
 
-  // Handle simple .md files
-  if (type === 'md') {
-    const content = await fs.readFile(documentNode.path, 'utf8')
-    const { attributes, body } = fm(content)
-
-    return (
-      <Wrap title="Markdown" level={4}>
-        <Markdown
-          remarkPlugins={[remarkGfm, remarkBreaks]}
-          className="markdown my-4"
-        >
-          {body}
-        </Markdown>
-        <p className="my-6 border-t border-gray-300 pt-4 text-sm text-gray-400">
-          Markdown Front Matter:{' '}
-          <div className="rounded bg-gray-200 px-2 py-1 font-mono text-xs text-gray-600">
-            {JSON.stringify(attributes)}
-          </div>
-        </p>
-      </Wrap>
-    )
-  }
-
-  // Handle .mdx files
-  if (type === 'mdx') {
-    const { default: Component } = await import(
-      /* @vite-ignore */ documentNode.path
-    )
-
-    return (
-      <Wrap title="MdxComponent" level={4}>
-        <div className="custom-index my-4">
-          <Component />
-        </div>
-      </Wrap>
-    )
-  }
-
-  console.dir({ documentNode }, { depth: null })
-
-  throw new Error('Document type not supported')
+  return renderer
 }
 
 export const Loading = () => {
-  return <div>Docs loading...</div>
+  return (
+    <Wrap title="DocsRendererCell" level={3}>
+      Docs loading...
+    </Wrap>
+  )
 }
 
 export const Failure = ({ error }) => {
   return (
-    <>
+    <Wrap title="DocsRendererCell" level={3}>
       <div>Doc page not found!</div>
       <p className="text-red-600">{JSON.stringify(error.message)}</p>
-    </>
+    </Wrap>
   )
 }
 
 export const Success = (Component: Awaited<ReturnType<typeof data>>) => {
-  return Component
+  return (
+    <Wrap title="DocsRendererCell" level={3}>
+      {Component}
+    </Wrap>
+  )
 }
