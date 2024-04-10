@@ -8,7 +8,7 @@ const DocsRendererPage = ({ path }) => {
     <Wrap title="DocsRendererPage" level={2}>
       <div className="flex items-start space-x-4">
         <aside className="w-1/4 flex-shrink-0">
-          <DocsNavigationCell />
+          <DocsNavigationCell depth={2} />
         </aside>
         <main className="flex-grow">
           <DocsRendererCell docPath={path} />

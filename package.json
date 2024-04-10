@@ -23,7 +23,6 @@
   },
   "packageManager": "yarn@4.1.1",
   "scripts": {
-    "bs": "yarn rw build && yarn copy && yarn rw serve",
-    "copy": "cp -R web/src/docs web/dist/rsc/docs"
+    "bs": "yarn rw build -v && yarn rw serve"
   }
 }

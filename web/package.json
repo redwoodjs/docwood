@@ -15,6 +15,7 @@
     "@heroicons/react": "^2.1.3",
     "@mdx-js/mdx": "^3.0.1",
     "@redwoodjs/forms": "8.0.0-canary.437",
+    "@redwoodjs/project-config": "8.0.0-canary.437",
     "@redwoodjs/router": "8.0.0-canary.437",
     "@redwoodjs/web": "8.0.0-canary.437",
     "change-case": "^5.4.3",
@@ -26,14 +27,18 @@
     "react-markdown": "^9.0.1",
     "remark-breaks": "^4.0.0",
     "remark-definition-list": "^2.0.0",
+    "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "titlecase": "^1.1.3"
   },
   "devDependencies": {
+    "@mdx-js/rollup": "3.0.1",
     "@redwoodjs/vite": "8.0.0-canary.437",
+    "@types/node": "^20.12.5",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.19",
+    "glob": "10.3.12",
     "postcss": "^8.4.38",
     "postcss-loader": "^8.1.1",
     "tailwindcss": "^3.4.3"
