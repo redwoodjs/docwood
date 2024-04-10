@@ -1,7 +1,11 @@
+/* eslint-disable import/order */
 import fs from 'node:fs/promises'
 
+import remarkDirective from 'remark-directive'
+import remarkCalloutDirectives from '@microflash/remark-callout-directives'
 import fm from 'front-matter'
 import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
@@ -15,7 +19,13 @@ const StaticMarkdownRenderer = async ({ node }: { node: DocumentTreeNode }) => {
   return (
     <Wrap title="StaticMarkdownRenderer" level={4}>
       <Markdown
-        remarkPlugins={[remarkGfm, remarkBreaks]}
+        remarkPlugins={[
+          [remarkGfm],
+          [remarkBreaks],
+          [remarkDirective],
+          [remarkCalloutDirectives, { aliases: { info: 'note' } }],
+        ]}
+        rehypePlugins={[rehypeRaw]}
         className="markdown my-4"
       >
         {body}

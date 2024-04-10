@@ -131,10 +131,22 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
   const { default: mdx } = await import('@mdx-js/rollup')
   const { default: remarkBreaks } = await import('remark-breaks')
   const { default: remarkGfm } = await import('remark-gfm')
+  const { default: remarkDirective } = await import('remark-directive')
+  const { default: remarkCalloutDirectives } = await import(
+    '@microflash/remark-callout-directives'
+  )
   const { default: remarkFrontmatter } = await import('remark-frontmatter')
+  const { default: rehypeRaw } = await import('rehype-raw')
 
   const original = mdx({
-    remarkPlugins: [remarkGfm, remarkBreaks, remarkFrontmatter],
+    remarkPlugins: [
+      [remarkGfm],
+      [remarkBreaks],
+      [remarkDirective],
+      [remarkCalloutDirectives, { aliases: { info: 'note' } }],
+      remarkFrontmatter,
+    ],
+    rehypePlugins: [rehypeRaw],
   })
   return {
     ...original,
