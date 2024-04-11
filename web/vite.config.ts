@@ -14,16 +14,16 @@ import redwood from '@redwoodjs/vite'
 dns.setDefaultResultOrder('verbatim')
 
 function docwood({
+  docsRootPath,
   docsStaticAssets,
   docsMdxAssets,
   docsJsAssets,
 }: {
+  docsRootPath: string
   docsStaticAssets: string[]
   docsMdxAssets: string[]
   docsJsAssets: string[]
 }): PluginOption {
-  const webSrcPath = path.join(__dirname, 'src')
-
   return {
     name: 'docwood',
     config(config, env) {
@@ -36,7 +36,7 @@ function docwood({
           dynamicAssets.map((file) => {
             console.info('file', file)
             const name = file.substring(
-              webSrcPath.length + 1,
+              docsRootPath.length + 1,
               file.lastIndexOf(path.extname(file))
             )
             console.info('name', name)
@@ -57,7 +57,7 @@ function docwood({
         const docsInputs = Object.fromEntries(
           docsJsAssets.map((file) => {
             const name = file.substring(
-              webSrcPath.length + 1,
+              docsRootPath.length + 1,
               file.lastIndexOf(path.extname(file))
             )
             return [name, file]
@@ -84,7 +84,7 @@ function docwood({
           options.dir,
           'assets',
           'docs',
-          asset.substring(webSrcPath.length + 6)
+          asset.substring(docsRootPath.length + 1)
         )
         const outputDir = path.dirname(outputPath)
         if (!fs.existsSync(outputDir)) {
@@ -176,8 +176,8 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
 }
 
 export default defineConfig(async () => {
-  const docsPath = path.join(__dirname, '..', 'docs')
-  const docsAssets = globSync(path.join(docsPath, '**', '*.*'))
+  const docsRootPath = path.join(__dirname, '..', 'docs', 'content')
+  const docsAssets = globSync(path.join(docsRootPath, '**', '*.*'))
   const docsMdxAssets = docsAssets.filter(
     (file) => path.extname(file) === '.mdx'
   )
@@ -196,6 +196,7 @@ export default defineConfig(async () => {
     plugins: [
       redwood(),
       docwood({
+        docsRootPath,
         docsStaticAssets,
         docsMdxAssets,
         docsJsAssets,
