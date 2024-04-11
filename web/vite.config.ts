@@ -144,9 +144,22 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
       [remarkBreaks],
       [remarkDirective],
       [remarkCalloutDirectives, { aliases: { info: 'note' } }],
-      remarkFrontmatter,
+      [remarkFrontmatter],
     ],
-    rehypePlugins: [rehypeRaw],
+    rehypePlugins: [
+      [
+        rehypeRaw,
+        {
+          passThrough: [
+            'mdxjsEsm',
+            'mdxFlowExpression',
+            'mdxJsxFlowElement',
+            'mdxJsxTextElement',
+            'mdxTextExpression',
+          ],
+        },
+      ],
+    ],
   })
   return {
     ...original,
