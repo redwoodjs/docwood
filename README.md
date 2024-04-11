@@ -4,29 +4,40 @@ Test for building a RedwoodJS-powered, React Server Components app for serving d
 
 ## Development
 
-The dev server isn't working with RSC, so you will need to build and serve between each code change.
+This repo contains no actual docs, those come from the main [redwoodjs/redwood](https://github.com/redwoodjs/redwood) repo, in the docs/docs directory.
 
-In addition, there are a couple of hacks needed to work with RSC (see below). You can build, enable hacks and serve with one command:
+To pull down docs from the redwoodjs/redwood repo, run the sync command:
+
+```
+yarn sync
+```
+
+The dev server isn't working with RSC yet, so to work on the site itself you need to build and serve between each code change (brutal, we know):
+
+```
+yarn rw build && yarn rw serve
+```
+
+Or use the shorthand version:
 
 ```
 yarn bs
 ```
 
-### Hacks
+To do first sync the docs and then build and serve, we have an even shorter shorthand:
 
-Run `yarn bs` to build and serve and automatically perform these hacks:
-
-1. web/dist/server/route-manifest.json creates regex route matches in the fastify style, but they need to be in the Express style for RSC. `yarn sed` replaces the docs matcher with the proper version.
-2. The docs markdown files in web/src/docs are not copied to dist at build time. `yarn copy` fixes that and moves them over.
+```
+yarn sbs
+```
 
 ## File Structure
 
-The URLs to a single doc page will map to the same directory structure in `web/src/docs`:
+The URLs to a single doc page will map to the same directory structure in `docs/content`:
 
 ```
 https://redwoodjs.com/docs/deployment/baremetal
 
-docs
+content
    ├── deployment
    │   ├── baremetal.md    <-- serves this file
    │   ├── index.md
