@@ -37,9 +37,7 @@ const VirtualIndexRenderer = async ({ node }: { node: DocumentTreeBranch }) => {
                   {titles.get(child.link)}
                 </a>
               </dt>
-              <dd className="mb-4 ml-7">
-                {descriptions.get(child.link) ?? 'No description'}
-              </dd>
+              <dd className="mb-4 ml-7">{descriptions.get(child.link)}</dd>
             </>
           ))}
         </dl>
