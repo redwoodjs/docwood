@@ -35,10 +35,12 @@ function docwood({
         const docsInputs = Object.fromEntries(
           dynamicAssets.map((file) => {
             console.info('file', file)
-            const name = file.substring(
-              docsRootPath.length + 1,
-              file.lastIndexOf(path.extname(file))
-            )
+            const name =
+              'docs/' +
+              file.substring(
+                docsRootPath.length + 1,
+                file.lastIndexOf(path.extname(file))
+              )
             console.info('name', name)
             return [name, file]
           })
@@ -56,10 +58,12 @@ function docwood({
       if (buildMode === 'client') {
         const docsInputs = Object.fromEntries(
           docsJsAssets.map((file) => {
-            const name = file.substring(
-              docsRootPath.length + 1,
-              file.lastIndexOf(path.extname(file))
-            )
+            const name =
+              'docs/' +
+              file.substring(
+                docsRootPath.length + 1,
+                file.lastIndexOf(path.extname(file))
+              )
             return [name, file]
           })
         )

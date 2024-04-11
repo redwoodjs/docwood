@@ -4,7 +4,36 @@ import { FolderIcon, DocumentIcon } from '@heroicons/react/24/outline'
 import fm from 'front-matter'
 
 import Wrap from 'src/components/Wrap/Wrap'
-import { DocumentTreeBranch } from 'src/lib/types'
+import { DocumentTreeBranch, DocumentTreeNode } from 'src/lib/types'
+
+const getNodeAttributes = async (node: DocumentTreeNode, depth: number) => {
+  const attributes = {
+    title: undefined,
+    description: undefined,
+  }
+
+  // We only look one level deep otherwise it could get confusing
+  if (depth > 1) {
+    return attributes
+  }
+
+  if (node.type === 'directory') {
+    // Look for the index file
+    const index = node.children.find((child) => child.link === node.link)
+    if (index) {
+      return getNodeAttributes(index, depth + 1)
+    }
+  } else {
+    const content = await fs.readFile(node.path, 'utf-8')
+    const { attributes: frontmatter } = fm(content)
+    // @ts-expect-error - `frontmatter` is of type unknown so accessing title is not TS safe
+    attributes.title = frontmatter.title
+    // @ts-expect-error - `frontmatter` is of type unknown so accessing description is not TS safe
+    attributes.description = frontmatter.description
+  }
+
+  return attributes
+}
 
 const VirtualIndexRenderer = async ({ node }: { node: DocumentTreeBranch }) => {
   const children = node.children
@@ -12,11 +41,8 @@ const VirtualIndexRenderer = async ({ node }: { node: DocumentTreeBranch }) => {
   const titles = new Map<string, string>()
   const descriptions = new Map<string, string>()
   for (const child of children) {
-    const content = await fs.readFile(child.path, 'utf-8')
-    const { attributes } = fm(content)
-    // @ts-expect-error - Attributes is of type unknown so accessing title is not TS safe
+    const attributes = await getNodeAttributes(child, 0)
     titles.set(child.link, attributes.title ?? child.title)
-    // @ts-expect-error - Attributes is of type unknown so accessing description is not TS safe
     descriptions.set(child.link, attributes.description)
   }
 
