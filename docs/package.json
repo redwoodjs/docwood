@@ -1,8 +1,0 @@
-{
-  "name": "docs",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "react-player": "^2.16.0"
-  }
-}
