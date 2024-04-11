@@ -10304,6 +10304,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"docs@workspace:docs":
+  version: 0.0.0-use.local
+  resolution: "docs@workspace:docs"
+  dependencies:
+    react-player: "npm:^2.16.0"
+  languageName: unknown
+  linkType: soft
+
 "doctrine@npm:^2.1.0":
   version: 2.1.0
   resolution: "doctrine@npm:2.1.0"
@@ -23038,7 +23046,6 @@ __metadata:
     react: "npm:18.3.0-canary-a870b2d54-20240314"
     react-dom: "npm:18.3.0-canary-a870b2d54-20240314"
     react-markdown: "npm:^9.0.1"
-    react-player: "npm:^2.16.0"
     rehype-raw: "npm:^7.0.0"
     remark-breaks: "npm:^4.0.0"
     remark-definition-list: "npm:^2.0.0"

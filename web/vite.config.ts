@@ -34,10 +34,12 @@ function docwood({
         const dynamicAssets = [...docsMdxAssets, ...docsJsAssets]
         const docsInputs = Object.fromEntries(
           dynamicAssets.map((file) => {
+            console.info('file', file)
             const name = file.substring(
               webSrcPath.length + 1,
               file.lastIndexOf(path.extname(file))
             )
+            console.info('name', name)
             return [name, file]
           })
         )
@@ -174,8 +176,7 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
 }
 
 export default defineConfig(async () => {
-  const webSrcPath = path.join(__dirname, 'src')
-  const docsPath = path.join(webSrcPath, 'docs')
+  const docsPath = path.join(__dirname, '..', 'docs')
   const docsAssets = globSync(path.join(docsPath, '**', '*.*'))
   const docsMdxAssets = docsAssets.filter(
     (file) => path.extname(file) === '.mdx'
