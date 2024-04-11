@@ -23,4 +23,5 @@ api/src/lib/generateGraphiQLHeader.*
 !.yarn/sdks
 !.yarn/versions
 
+docs/package.json
 docs/content/*

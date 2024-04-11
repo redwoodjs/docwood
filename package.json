@@ -23,6 +23,8 @@
   },
   "packageManager": "yarn@4.1.1",
   "scripts": {
-    "bs": "yarn rw build -v && yarn rw serve"
+    "bs": "yarn rw build -v && yarn rw serve",
+    "sync": "node scripts/sync.js",
+    "sbs": "yarn sync && yarn bs"
   }
 }
