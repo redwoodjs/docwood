@@ -16,7 +16,7 @@ const main = async () => {
 
   // remove any existing docs
   console.info('Removing existing docs...')
-  execSync(`git checkout --no-overlay -- ${LOCAL_DOCS_PATH}`)
+  execSync(`git clean -x -f ${LOCAL_DOCS_PATH}`)
 
   // checkout latest docs
   execSync(
