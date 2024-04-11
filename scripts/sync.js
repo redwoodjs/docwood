@@ -7,6 +7,16 @@ const path = require('node:path')
 
 const LOCAL_DOCS_PATH = path.join(__dirname, '..', 'docs')
 const LOCAL_DOCS_CONTENT_HOME = path.join(LOCAL_DOCS_PATH, 'content')
+const PACKAGE_JSON = `{
+  "name": "docs",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "react-player": "2.15.1"
+  },
+  "packageManager": "yarn@4.1.1"
+}
+`
 
 const main = async () => {
   const randomString = Math.random().toString(36).substring(2, 15)
@@ -25,10 +35,11 @@ const main = async () => {
 
   console.info('Copying files...')
 
-  // copy package.json
-  execSync(
-    `cp -R ${path.join(repoPath, 'docs', 'package.json')} ${LOCAL_DOCS_PATH}`
-  )
+  // for now, write a new package.json as if it was in the one in the remote repo
+  // execSync(
+  //   `cp -R ${path.join(repoPath, 'docs', 'package.json')} ${LOCAL_DOCS_PATH}`
+  // )
+  fs.writeFileSync(path.join(LOCAL_DOCS_PATH, 'package.json'), PACKAGE_JSON)
 
   // create dirs
   execSync(`mkdir -p ${path.join(LOCAL_DOCS_CONTENT_HOME, '02_tutorial')}`)
