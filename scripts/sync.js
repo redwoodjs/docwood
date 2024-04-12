@@ -44,6 +44,7 @@ const main = async () => {
   // create dirs
   execSync(`mkdir -p ${path.join(LOCAL_DOCS_CONTENT_HOME, '02_tutorial')}`)
   execSync(`mkdir -p ${path.join(LOCAL_DOCS_CONTENT_HOME, '03_reference')}`)
+  execSync(`mkdir -p ${path.join(LOCAL_DOCS_CONTENT_HOME, '04_how-to')}`)
 
   // copy over files
   execSync(
@@ -80,6 +81,9 @@ const main = async () => {
   })
   execSync(
     `cp -f ${path.join(remoteDocsPath, 'tutorial', 'afterword.md')} ${path.join(LOCAL_DOCS_CONTENT_HOME, '02_tutorial', '11_afterword.md')}`
+  )
+  execSync(
+    `mv -f ${path.join(remoteDocsPath, 'how-to', '*')} ${path.join(LOCAL_DOCS_CONTENT_HOME, '04_how-to')}`
   )
   execSync(
     `cp -rf ${path.join(remoteDocsPath) + '/'} ${path.join(LOCAL_DOCS_CONTENT_HOME, '03_reference')}`
