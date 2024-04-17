@@ -102,3 +102,23 @@ function getChildrenUpToDepth(
     return node
   })
 }
+
+export async function getTableOfContents(node: DocumentTreeNode) {
+  if (node.type === 'mdx') {
+    const { tableOfContents } = await import(/* @vite-ignore */ node.path)
+    return tableOfContents
+  }
+
+  if (node.type === 'md') {
+    const content = await fs.readFile(node.path, 'utf-8')
+    const { compile } = await import('@mdx-js/mdx')
+    const { default: withToc } = await import(
+      '@stefanprobst/rehype-extract-toc'
+    )
+    const res = await compile(content, { rehypePlugins: [[withToc]] })
+    return res.data.toc
+  }
+
+  // TODO: Handle the case for a directory
+  return []
+}

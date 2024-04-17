@@ -2,6 +2,7 @@ import Wrap from 'src/components/Wrap'
 
 import DocsNavigationCell from './DocsNavigationCell'
 import DocsRendererCell from './DocsRendererCell/DocsRendererCell'
+import DocsTableOfContentsCell from './DocsTableOfContentsCell'
 
 const DocsRendererPage = ({ path }) => {
   return (
@@ -13,6 +14,9 @@ const DocsRendererPage = ({ path }) => {
         <main className="flex-grow">
           <DocsRendererCell docPath={path} />
         </main>
+        <aside className="flex-shrink-0">
+          <DocsTableOfContentsCell docPath={path} depth={3} />
+        </aside>
       </div>
     </Wrap>
   )
