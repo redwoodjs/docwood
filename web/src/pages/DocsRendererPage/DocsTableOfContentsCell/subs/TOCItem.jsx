@@ -1,7 +1,7 @@
 'use client'
 
 export const TOCItem = ({ node }) => {
-  const id = node.value.toLowerCase().replaceAll(' ', '-')
+  const id = node.value.toLowerCase().replaceAll(' ', '-').replaceAll('.', '')
   return (
     <>
       <button
