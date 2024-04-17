@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.active-link {
+  @apply text-red-500;
+}
+
 .markdown, .custom-index {
   h1 {
     @apply text-4xl font-bold;

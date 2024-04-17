@@ -1,9 +1,41 @@
 import Wrap from 'src/components/Wrap/Wrap'
 import { getDocumentTreeToDepth } from 'src/lib/docs'
+import { DocumentTreeNode } from 'src/lib/types'
 
-export const data = async ({ depth }: { depth: number }) => {
+const getActiveLink = (
+  nodes: DocumentTreeNode[],
+  docPath: string,
+  currentValue: string
+): string | null => {
+  let bestMatch = currentValue
+  for (const node of nodes) {
+    if (node.link === docPath) {
+      return node.link
+    }
+    if (node.type === 'directory') {
+      const activeLink = getActiveLink(node.children, docPath, currentValue)
+      if (activeLink && activeLink.length > bestMatch.length) {
+        bestMatch = activeLink
+      }
+    }
+  }
+  return bestMatch
+}
+
+export const data = async ({
+  docPath,
+  depth,
+}: {
+  docPath: string
+  depth: number
+}) => {
   const subTree = await getDocumentTreeToDepth(depth)
-  return { links: subTree }
+  const activeLink =
+    docPath === undefined
+      ? '/docs'
+      : getActiveLink(subTree, '/docs/' + docPath, '')
+
+  return { links: subTree, activeLink }
 }
 
 export const Loading = () => {
@@ -19,7 +51,10 @@ export const Failure = ({ error }) => {
   )
 }
 
-export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
+export const Success = ({
+  links,
+  activeLink,
+}: Awaited<ReturnType<typeof data>>) => {
   const linksWithoutIndex = links.filter((link) => link.link !== '/docs')
 
   return (
@@ -27,7 +62,10 @@ export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
       <nav>
         <ul className="flex flex-col space-y-2">
           <li>
-            <a href="/docs" className="text-sm font-semibold">
+            <a
+              href="/docs"
+              className={`text-sm font-semibold ${activeLink === '/docs' ? 'active-link' : ''}`}
+            >
               Home
             </a>
           </li>
@@ -39,7 +77,10 @@ export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
 
             return (
               <li key={link.link}>
-                <a href={link.link} className="text-sm font-semibold">
+                <a
+                  href={link.link}
+                  className={`text-sm font-semibold ${activeLink === link.link ? 'active-link' : ''}`}
+                >
                   {link.title}
                 </a>
                 {childrenWithoutIndex.length > 0 && (
@@ -48,7 +89,12 @@ export const Success = ({ links }: Awaited<ReturnType<typeof data>>) => {
                     className="flex flex-col space-y-1 border-l border-gray-300 pl-2 text-sm"
                   >
                     {childrenWithoutIndex.map((child) => (
-                      <li key={child.link}>
+                      <li
+                        key={child.link}
+                        className={
+                          activeLink === child.link ? 'active-link' : ''
+                        }
+                      >
                         <a href={child.link}>{child.title}</a>
                       </li>
                     ))}
