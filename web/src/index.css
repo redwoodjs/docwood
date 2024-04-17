@@ -6,6 +6,31 @@
   @apply text-red-500;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+.toc {
+  ul {
+    @apply list-none ml-0;
+  }
+  ul ul {
+    @apply border-l border-gray-300 pl-2;
+  }
+  ul ul ul {
+    @apply ml-2 border-l border-gray-300 pl-2;
+  }
+  ul ul ul ul {
+    @apply ml-4 border-l border-gray-300 pl-2;
+  }
+  ul ul ul ul ul {
+    @apply ml-6 border-l border-gray-300 pl-2;
+  }
+  ul ul ul ul ul ul {
+    @apply ml-8 border-l border-gray-300 pl-2;
+  }
+}
+
 .markdown, .custom-index {
   h1 {
     @apply text-4xl font-bold;
