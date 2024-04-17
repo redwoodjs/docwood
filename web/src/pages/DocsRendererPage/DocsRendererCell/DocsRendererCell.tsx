@@ -38,9 +38,11 @@ export const data = async ({ docPath }) => {
       const { default: Renderer } = await import(/* @vite-ignore */ node.path)
       return {
         Component: (
-          <div className="markdown">
-            <Renderer />
-          </div>
+          <Wrap title="MDXComponent" level={4}>
+            <div className="markdown">
+              <Renderer />
+            </div>
+          </Wrap>
         ),
       }
     }
