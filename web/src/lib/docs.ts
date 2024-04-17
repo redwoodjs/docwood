@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+import fm from 'front-matter'
+
 import { ROOT_DIST_PATH } from './paths'
 import {
   DocumentTree,
@@ -115,10 +117,32 @@ export async function getTableOfContents(node: DocumentTreeNode) {
     const { default: withToc } = await import(
       '@stefanprobst/rehype-extract-toc'
     )
-    const res = await compile(content, { rehypePlugins: [[withToc]] })
+    const { body } = fm(content)
+    const res = await compile(body, { rehypePlugins: [[withToc]] })
     return res.data.toc
   }
 
   // TODO: Handle the case for a directory
   return []
+}
+
+export async function getTableOfContentsToDepth(
+  node: DocumentTreeNode,
+  depth: number
+) {
+  const stripToDepth = (toc, depth) => {
+    const stippedToc = []
+    for (const item of toc) {
+      if (item.depth <= depth) {
+        stippedToc.push({
+          ...item,
+          children: stripToDepth(item.children ?? [], depth),
+        })
+      }
+    }
+    return stippedToc
+  }
+
+  const toc = await getTableOfContents(node)
+  return stripToDepth(toc, depth)
 }

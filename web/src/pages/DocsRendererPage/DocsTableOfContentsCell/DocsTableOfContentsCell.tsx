@@ -1,12 +1,14 @@
 import Wrap from 'src/components/Wrap/Wrap'
-import { getDocumentMap, getTableOfContents } from 'src/lib/docs'
+import { getDocumentMap, getTableOfContentsToDepth } from 'src/lib/docs'
+
+import { TOCItem } from './subs/TOCItem'
 
 export const data = async ({
   docPath,
-  _depth,
+  depth,
 }: {
   docPath: string
-  _depth: number
+  depth: number
 }) => {
   const documentMap = await getDocumentMap()
   const mapKey = docPath ? `/docs/${docPath}` : '/docs'
@@ -17,8 +19,7 @@ export const data = async ({
     throw new Error('Document not found')
   }
 
-  const toc = await getTableOfContents(node)
-
+  const toc = await getTableOfContentsToDepth(node, depth)
   return { toc }
 }
 
@@ -42,7 +43,11 @@ export const Success = ({ toc }: Awaited<ReturnType<typeof data>>) => {
 
   return (
     <Wrap title="DocsTableOfContentsCell" level={3}>
-      <pre>{JSON.stringify(toc, undefined, 2)}</pre>
+      <div className="flex flex-col">
+        {toc.map((node) => (
+          <TOCItem key={node.value + node.depth} node={node} />
+        ))}
+      </div>
     </Wrap>
   )
 }
