@@ -8,10 +8,9 @@ import { ROOT_DIST_PATH, ROOT_SRC_PATH } from './paths'
 import { DocumentTreeLeaf } from './types'
 
 export function getLink(p: string): string {
-  const link = p.substring(
-    ROOT_SRC_PATH.length + 7,
-    p.length - path.extname(p).length
-  )
+  const link =
+    '/docs' +
+    p.substring(ROOT_DIST_PATH.length, p.length - path.extname(p).length)
   return link.endsWith('/index') ? link.substring(0, link.length - 6) : link
 }
 
