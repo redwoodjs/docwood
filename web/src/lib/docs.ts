@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+import fm from 'front-matter'
+
 import { ROOT_DIST_PATH } from './paths'
 import {
   DocumentTree,
@@ -101,4 +103,46 @@ function getChildrenUpToDepth(
 
     return node
   })
+}
+
+export async function getTableOfContents(node: DocumentTreeNode) {
+  if (node.type === 'mdx') {
+    const { tableOfContents } = await import(/* @vite-ignore */ node.path)
+    return tableOfContents
+  }
+
+  if (node.type === 'md') {
+    const content = await fs.readFile(node.path, 'utf-8')
+    const { compile } = await import('@mdx-js/mdx')
+    const { default: withToc } = await import(
+      '@stefanprobst/rehype-extract-toc'
+    )
+    const { body } = fm(content)
+    const res = await compile(body, { rehypePlugins: [[withToc]] })
+    return res.data.toc
+  }
+
+  // TODO: Handle the case for a directory
+  return []
+}
+
+export async function getTableOfContentsToDepth(
+  node: DocumentTreeNode,
+  depth: number
+) {
+  const stripToDepth = (toc, depth) => {
+    const stippedToc = []
+    for (const item of toc) {
+      if (item.depth <= depth) {
+        stippedToc.push({
+          ...item,
+          children: stripToDepth(item.children ?? [], depth),
+        })
+      }
+    }
+    return stippedToc
+  }
+
+  const toc = await getTableOfContents(node)
+  return stripToDepth(toc, depth)
 }

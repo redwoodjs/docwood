@@ -8,6 +8,7 @@ import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
 
 import Wrap from 'src/components/Wrap/Wrap'
 import { DocumentTreeNode } from 'src/lib/types'
@@ -25,7 +26,7 @@ const StaticMarkdownRenderer = async ({ node }: { node: DocumentTreeNode }) => {
           [remarkDirective],
           [remarkCalloutDirectives, { aliases: { info: 'note' } }],
         ]}
-        rehypePlugins={[rehypeRaw]}
+        rehypePlugins={[rehypeRaw, rehypeSlug]}
         className="markdown my-4"
       >
         {body}
