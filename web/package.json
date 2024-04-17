@@ -19,6 +19,7 @@
     "@redwoodjs/project-config": "8.0.0-canary.477",
     "@redwoodjs/router": "8.0.0-canary.477",
     "@redwoodjs/web": "8.0.0-canary.477",
+    "@stefanprobst/rehype-extract-toc": "^2.2.0",
     "change-case": "^5.4.3",
     "clsx": "^2.1.0",
     "fast-glob": "^3.3.2",

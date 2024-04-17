@@ -144,6 +144,10 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
   const { default: remarkFrontmatter } = await import('remark-frontmatter')
   const { default: rehypeRaw } = await import('rehype-raw')
   const { default: rehypeSlug } = await import('rehype-slug')
+  const { default: withToc } = await import('@stefanprobst/rehype-extract-toc')
+  const { default: withTocExport } = await import(
+    '@stefanprobst/rehype-extract-toc/mdx'
+  )
 
   const original = mdx({
     remarkPlugins: [
@@ -167,6 +171,8 @@ async function mdxWrapper(exclude: string[]): Promise<PluginOption> {
         },
       ],
       [rehypeSlug],
+      [withToc],
+      [withTocExport],
     ],
   })
   return {
