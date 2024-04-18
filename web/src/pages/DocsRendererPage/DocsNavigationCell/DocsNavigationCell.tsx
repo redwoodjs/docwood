@@ -12,6 +12,10 @@ const getActiveLink = (
     if (node.link === docPath) {
       return node.link
     }
+    if (docPath.startsWith(node.link) && node.link.length > bestMatch.length) {
+      bestMatch = node.link
+    }
+
     if (node.type === 'directory') {
       const activeLink = getActiveLink(node.children, docPath, currentValue)
       if (activeLink && activeLink.length > bestMatch.length) {
