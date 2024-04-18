@@ -2,7 +2,7 @@ import Wrap from 'src/components/Wrap/Wrap'
 import { getDocumentMap } from 'src/lib/docs'
 import { DocumentTreeNode } from 'src/lib/types'
 
-// import ClientMdxRenderer from './subs/ClientMdxRenderer'
+import Breadcrumbs from './subs/Breadcrumbs'
 import StaticMarkdownRenderer from './subs/StaticMarkdownRenderer'
 import VirtualIndexRenderer from './subs/VirtualIndexRenderer'
 
@@ -54,7 +54,10 @@ export const data = async ({ docPath }) => {
     )
   }
 
-  return await getRenderer(node)
+  return {
+    Component: (await getRenderer(node)).Component,
+    Breadcrumbs: <Breadcrumbs node={node} />,
+  }
 }
 
 export const Loading = () => {
@@ -74,9 +77,13 @@ export const Failure = ({ error }) => {
   )
 }
 
-export const Success = ({ Component }: Awaited<ReturnType<typeof data>>) => {
+export const Success = ({
+  Component,
+  Breadcrumbs,
+}: Awaited<ReturnType<typeof data>>) => {
   return (
     <Wrap title="DocsRendererCell" level={3}>
+      {Breadcrumbs}
       {Component}
     </Wrap>
   )

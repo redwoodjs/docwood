@@ -146,3 +146,18 @@ export async function getTableOfContentsToDepth(
   const toc = await getTableOfContents(node)
   return stripToDepth(toc, depth)
 }
+
+export async function getPathToNode(node: DocumentTreeNode) {
+  const documentMap = await getDocumentMap()
+  const items: DocumentTreeNode[] = []
+
+  let current = node
+  while (current) {
+    items.unshift(current)
+    const parentPath = path.dirname(current.link)
+    const parent = documentMap.get(parentPath)
+    current = parent
+  }
+
+  return items
+}
