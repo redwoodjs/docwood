@@ -7,6 +7,7 @@ export const TOCItem = ({ node }) => {
       <a href={`#${id}`}>{node.value}</a>
       {node.children.length > 0 && (
         <ul>
+        <ul className="list-none border-l border-gray-300 pl-2">
           {node.children.map((child) => (
             <TOCItem key={child.value + child.depth} node={child} />
           ))}
