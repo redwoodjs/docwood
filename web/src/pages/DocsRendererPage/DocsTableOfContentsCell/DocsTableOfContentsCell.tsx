@@ -44,7 +44,7 @@ export const Success = ({ toc }: Awaited<ReturnType<typeof data>>) => {
   return (
     <Wrap title="DocsTableOfContentsCell" level={3}>
       <div className="toc">
-        <ul>
+        <ul className="text-sm">
           {toc.map((node) => (
             <TOCItem key={node.value + node.depth} node={node} />
           ))}

@@ -14,7 +14,7 @@ const Breadcrumbs = async ({ node }: { node: DocumentTreeNode }) => {
 
   return (
     <Wrap title="DocsBreadcrumbs" level={4}>
-      <div className="my-4 flex flex-row gap-2">
+      <div className="mt-4 flex flex-row gap-2">
         <a href="/docs">
           <HomeIcon className="h-5 w-5 text-gray-600" />
         </a>

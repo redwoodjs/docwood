@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 import Wrap from 'src/components/Wrap/Wrap'
 import { getDocumentTreeToDepth } from 'src/lib/docs'
 import { DocumentTreeNode } from 'src/lib/types'
@@ -65,7 +67,7 @@ export const Success = ({
     <Wrap title="DocsNavigationCell" level={3}>
       <nav>
         <ul className="flex flex-col space-y-2">
-          <li>
+          <li className="my-1 leading-4">
             <a
               href="/docs"
               className={`text-sm font-semibold ${activeLink === '/docs' ? 'active-link' : ''}`}
@@ -80,7 +82,7 @@ export const Success = ({
                 : []
 
             return (
-              <li key={link.link}>
+              <li key={link.link} className="my-1 leading-4">
                 <a
                   href={link.link}
                   className={`text-sm font-semibold ${activeLink === link.link ? 'active-link' : ''}`}
@@ -95,9 +97,10 @@ export const Success = ({
                     {childrenWithoutIndex.map((child) => (
                       <li
                         key={child.link}
-                        className={
+                        className={clsx(
+                          'my-1 leading-4',
                           activeLink === child.link ? 'active-link' : ''
-                        }
+                        )}
                       >
                         <a href={child.link}>{child.title}</a>
                       </li>

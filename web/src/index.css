@@ -71,6 +71,10 @@ html {
   a {
     @apply text-blue-500 underline;
   }
+  pre {
+    @apply overflow-auto;
+  }
+
   code {
     @apply bg-gray-200 p-1 rounded text-sm;
   }
