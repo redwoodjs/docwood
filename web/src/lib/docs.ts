@@ -118,7 +118,10 @@ export async function getTableOfContents(node: DocumentTreeNode) {
       '@stefanprobst/rehype-extract-toc'
     )
     const { body } = fm(content)
-    const res = await compile(body, { rehypePlugins: [[withToc]] })
+    const res = await compile(body, {
+      rehypePlugins: [[withToc]],
+      format: 'md',
+    })
     return res.data.toc
   }
 
