@@ -19249,6 +19249,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-player@npm:^2.16.0":
+  version: 2.16.0
+  resolution: "react-player@npm:2.16.0"
+  dependencies:
+    deepmerge: "npm:^4.0.0"
+    load-script: "npm:^1.0.0"
+    memoize-one: "npm:^5.1.1"
+    prop-types: "npm:^15.7.2"
+    react-fast-compare: "npm:^3.0.1"
+  peerDependencies:
+    react: ">=16.6.0"
+  checksum: 10c0/ee0f4cd3bd468b28af38dbbb65cae1659218153956f43c0bdd15cd8b38aaaf151deec43b93b7dd887c0ac28242a4ba7e9d01823351e78ba60ae04d5fb51defb4
+  languageName: node
+  linkType: hard
+
 "react-refresh@npm:0.14.0, react-refresh@npm:^0.14.0":
   version: 0.14.0
   resolution: "react-refresh@npm:0.14.0"
@@ -22930,6 +22945,7 @@ __metadata:
     react: "npm:18.3.0-canary-a870b2d54-20240314"
     react-dom: "npm:18.3.0-canary-a870b2d54-20240314"
     react-markdown: "npm:^9.0.1"
+    react-player: "npm:^2.16.0"
     rehype-raw: "npm:^7.0.0"
     rehype-slug: "npm:^6.0.0"
     remark-breaks: "npm:^4.0.0"
