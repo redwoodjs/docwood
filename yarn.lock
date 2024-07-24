@@ -36,6 +36,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@apollo/client-react-streaming@npm:0.10.0":
+  version: 0.10.0
+  resolution: "@apollo/client-react-streaming@npm:0.10.0"
+  dependencies:
+    superjson: "npm:^1.12.2 || ^2.0.0"
+    ts-invariant: "npm:^0.10.3"
+  peerDependencies:
+    "@apollo/client": ^3.9.6
+    react: ^18
+  checksum: 10c0/b960665331cf52c05e033c91635df41ee311cd910d84b9f41b59be2496760f72591610c3eb746a46f57416f29bea7e2ee47e84e81fc3f0099db5087284f00905
+  languageName: node
+  linkType: hard
+
 "@apollo/client@npm:3.11.1":
   version: 3.11.1
   resolution: "@apollo/client@npm:3.11.1"
@@ -18270,6 +18283,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"superjson@npm:^1.12.2 || ^2.0.0":
+  version: 2.2.1
+  resolution: "superjson@npm:2.2.1"
+  dependencies:
+    copy-anything: "npm:^3.0.2"
+  checksum: 10c0/5d8202c955170bd98ef2647f712754ac54d2d007923cfdb53a4b035304d8964b8c41d5eff41ee277896e2ac32e06abb009b571f1589416b729fe40216320cc7a
+  languageName: node
+  linkType: hard
+
 "supports-color@npm:^5.3.0, supports-color@npm:^5.5.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
@@ -19574,6 +19596,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@apollo/client-react-streaming": "npm:0.10.0"
     "@apollo/experimental-nextjs-app-support": "npm:0.0.0-commit-b8a73fe"
     "@heroicons/react": "npm:^2.1.3"
     "@mdx-js/mdx": "npm:^3.0.1"
