@@ -1,14 +1,28 @@
 import fs from 'node:fs'
 
-import { MiddlewareResponse } from '@redwoodjs/vite/middleware'
+import type { TagDescriptor } from '@redwoodjs/web/htmlTags'
+import { MiddlewareResponse } from '@redwoodjs/web/middleware'
 
+import Routes from './Routes'
 import App from './App'
 import { Document } from './Document'
 
+
 interface Props {
   css: string[]
-  meta?: any[]
+  meta?: TagDescriptor[]
 }
+
+export const ServerEntry: React.FC<Props> = ({ css, meta }) => {
+  return (
+    <Document css={css} meta={meta}>
+      <App>
+        <Routes />
+      </App>
+    </Document>
+  )
+}
+
 export const registerMiddleware = async () => {
   const matchPrefix = 'http://localhost:8910/@fs'
   const matchIncludes = 'web/src/docs/'
@@ -18,7 +32,7 @@ export const registerMiddleware = async () => {
 
   const clientBuildManifest = JSON.parse(
     fs.readFileSync(
-      getPaths().web.distClient + '/client-build-manifest.json',
+      getPaths().web.distBrowser + '/client-build-manifest.json',
       'utf-8'
     )
   )
@@ -41,7 +55,7 @@ export const registerMiddleware = async () => {
         }
 
         const entryFile = fs.readFileSync(
-          getPaths().web.distClient + '/' + entry.file,
+          getPaths().web.distBrowser + '/' + entry.file,
           'utf8'
         )
 
@@ -75,12 +89,4 @@ export const registerMiddleware = async () => {
       }
     },
   ]
-}
-
-export const ServerEntry: React.FC<Props> = ({ css, meta }) => {
-  return (
-    <Document css={css} meta={meta}>
-      <App />
-    </Document>
-  )
 }
