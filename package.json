@@ -3,6 +3,7 @@
   "workspaces": {
     "packages": [
       "docs",
+      "api",
       "web"
     ]
   },
